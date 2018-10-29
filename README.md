@@ -1,13 +1,13 @@
-# finalProject3280
+# finalProject3280 <br />
 
 
-Initial Setup
+Initial Setup <br />
 
-mkdir YOURDIRECTORYNAME
-cd YOURDIRECTORYNAME
-git clone https://github.com/pmayer391/finalProject3280.git
-//Enter your github password
-cd finalProject3280
-git branch YOURBRANCHNAME
-git checkout YOURBRANCHNAME
-git push --set-upstream origin YOURBRANCHNAME
+mkdir YOURDIRECTORYNAME <br />
+cd YOURDIRECTORYNAME <br />
+git clone https://github.com/pmayer391/finalProject3280.git <br />
+//Enter your github password <br />
+cd finalProject3280 <br />
+git branch YOURBRANCHNAME <br />
+git checkout YOURBRANCHNAME <br />
+git push --set-upstream origin YOURBRANCHNAME <br />
