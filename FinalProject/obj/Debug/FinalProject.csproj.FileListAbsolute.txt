@@ -15,3 +15,4 @@ C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\Fina
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Search\wndSearch.g.cs
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Items\wndItems.baml
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Search\wndSearch.baml
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\FinalProject.csprojResolveAssemblyReference.cache
