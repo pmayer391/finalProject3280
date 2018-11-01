@@ -5,8 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinalProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="525">
+        Title="MainWindow" Height="700" Width="1000"
+        WindowStyle="None"
+        BorderBrush="Black"
+        BorderThickness="1"
+        AllowsTransparency="True" 
+        MouseLeftButtonDown="longClickDown"
+        Background="#FFF5E2">
+    <Window.Resources>
+
+        <Style x:Name="menuButton" TargetType="MenuItem">
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Foreground" Value="#72BB53"/>
+            <Setter Property="FontFamily" Value="Rockwell"/>
+            <Setter Property="FontWeight" Value="DemiBold" />
+        </Style>
+
+        <Style x:Name="labelText" TargetType="Label">
+            <Setter Property="FontSize" Value="72"/>
+            <Setter Property="Foreground" Value="#72BB53"/>
+            <Setter Property="FontFamily" Value="Rockwell"/>
+            <Setter Property="FontWeight" Value="DemiBold" />
+        </Style>
+
+        <Style x:Name="bitButton" TargetType="Button">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="#72BB53"/>
+            <Setter Property="FontFamily" Value="Rockwell"/>
+            <Setter Property="Background" Value="#D6D6D6"/>
+            <Setter Property="FontWeight" Value="DemiBold" />
+        </Style>
+
+    </Window.Resources>
+
     <Grid>
-        
+        <StackPanel Background="Black" Orientation="Horizontal" Height="100" Margin="0,0,0,0" VerticalAlignment="Top">
+            <Label Content=" simply" HorizontalAlignment="Left"/>
+            <Label  Content="mac   invoices" HorizontalAlignment="Left" Foreground="White"/>
+        </StackPanel>
+
+        <Menu Height="90" Background="#D6D6D6" Margin="0,100,0 0" VerticalAlignment="Top" HorizontalContentAlignment="Right">
+            <MenuItem Header="SEARCH INVOICES   " Margin="500,25,0,0"></MenuItem>
+            <MenuItem Header="EDIT ITEMS" Margin="0,25,0,0" BorderThickness="1"></MenuItem>
+        </Menu>
+
+        <GroupBox x:Name="currentInvoice" Header="Current Invoice" HorizontalAlignment="Left" Margin="30,249,0,79" VerticalAlignment="Center" Height="370" Width="425" FontSize="24" BorderThickness="5" FontFamily="Segoe UI Semibold">
+            <Grid x:Name="currentInvoiceGrid" Visibility="Visible" Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48*"/>
+                    <ColumnDefinition Width="140*"/>
+                    <ColumnDefinition Width="225*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200*"/>
+                    <RowDefinition Height="200*"/>
+                    <RowDefinition Height="200*"/>
+                    <RowDefinition Height="200*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Number:" Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,20,0,0" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Date:" Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,19.333,0,17.333" VerticalAlignment="Center" Grid.Row="1" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Items:"  Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,19.667,0,17" VerticalAlignment="Center" Grid.Row="2" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Total:" Grid.Row="3"  Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,20,0,16.667" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label x:Name="invoiceNumber" Content="1" Grid.Column="2" FontSize="20" Foreground="Black" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
+                <DatePicker x:Name="invoiceDate" Grid.Column="2" FontSize="15" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120" Grid.Row="1"/>
+                <ComboBox x:Name="invoiceItems" Grid.Column="2" FontSize="15" Grid.Row="2" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120"/>
+                <Label x:Name="invoiceTotal" Content="$100.00" Grid.Row="3" Grid.Column="2" FontSize="20" Foreground="Black" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+
+        <StackPanel Orientation="Vertical" Margin="330,250,0,0" HorizontalAlignment="Right" Width="500" Height="400" VerticalAlignment="Top">
+            <Button Content="Create New Invoice" Height="100" Margin="30,15,30,15"/>
+            <Button Content="Edit Current Invoice" Height="100" Margin="30,15,30,15"/>
+            <Button Content="Delete Current Invoice" Height="100" Margin="30,15,30,15"/>
+        </StackPanel>
+
+
     </Grid>
 </Window>
