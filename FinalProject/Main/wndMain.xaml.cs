@@ -24,5 +24,10 @@ namespace FinalProject
         {
             InitializeComponent();
         }
+
+        private void longClickDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }
