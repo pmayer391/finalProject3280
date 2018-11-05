@@ -12,17 +12,17 @@ namespace FinalProject
         /// <summary>
         /// Invoice number property
         /// </summary>
-        public string InvoiceNum { get; set; }
+        public string invoiceNum { get; set; }
 
         /// <summary>
         /// Invoice date property
         /// </summary>
-        public string InvoiceDate { get; set; }
+        public string invoiceDate { get; set; }
 
         /// <summary>
         /// Total type property
         /// </summary>
-        public string TotalCost { get; set; }
+        public string totalCost { get; set; }
 
         //TODO: REMOVE THIS IF NOT NEEDED LATER ON.
         ///// <summary>

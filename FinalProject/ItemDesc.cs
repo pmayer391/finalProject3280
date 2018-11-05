@@ -11,17 +11,17 @@ namespace FinalProject
         /// <summary>
         /// Item code property
         /// </summary>
-        public string ItemCode { get; set; }
+        public string itemCode { get; set; }
 
         /// <summary>
         /// Item description property
         /// </summary>
-        public string ItemDescription { get; set; }
+        public string itemDescription { get; set; }
 
         /// <summary>
         /// Cost property
         /// </summary>
-        public decimal Cost { get; set; }
+        public decimal cost { get; set; }
 
         //TODO: REMOVE THIS IF NOT NEEDED LATER ON.
         ///// <summary>

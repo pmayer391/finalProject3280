@@ -11,22 +11,27 @@ namespace FinalProject
         /// <summary>
         /// Invoice number property
         /// </summary>
-        public string InvoiceNum { get; set; }
+        public string invoiceNum { get; set; }
 
         /// <summary>
         /// Item code property
         /// </summary>
-        public string ItemCode { get; set; }
+        public string itemCode { get; set; }
+
+        /// <summary>
+        /// Item description property
+        /// </summary>
+        public string itemDescription { get; set; }
 
         /// <summary>
         /// Line item number property.
         /// </summary>
-        public string LineItemNum { get; set; }
+        public string lineItemNum { get; set; }
 
         /// <summary>
         /// Cost number property.
         /// </summary>
-        public decimal Cost { get; set; }
+        public decimal cost { get; set; }
 
         //TODO: REMOVE THIS IF NOT NEEDED LATER ON.
         ///// <summary>
