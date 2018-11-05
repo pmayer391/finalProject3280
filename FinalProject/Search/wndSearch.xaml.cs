@@ -19,9 +19,12 @@ namespace FinalProject.Search
     /// </summary>
     public partial class wndSearch : Window
     {
-        public wndSearch()
+        MainWindow mainWindow;
+
+        public wndSearch(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
         }
     }
 }

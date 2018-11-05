@@ -22,8 +22,8 @@
         </Style>
 
         <Style x:Name="labelText" TargetType="Label">
-            <Setter Property="FontSize" Value="72"/>
-            <Setter Property="Foreground" Value="#72BB53"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Rockwell"/>
             <Setter Property="FontWeight" Value="DemiBold" />
         </Style>
@@ -40,17 +40,17 @@
 
     <Grid>
         <StackPanel Background="Black" Orientation="Horizontal" Height="100" Margin="0,0,0,0" VerticalAlignment="Top">
-            <Label Content=" simply" HorizontalAlignment="Left"/>
-            <Label  Content="mac   invoices" HorizontalAlignment="Left" Foreground="White"/>
+            <Label Content=" simply" FontSize="72" Foreground="#72BB53" HorizontalAlignment="Left"/>
+            <Label  Content="mac   invoices" FontSize="72" HorizontalAlignment="Left" Foreground="White"/>
         </StackPanel>
 
         <Menu Height="90" Background="#D6D6D6" Margin="0,100,0 0" VerticalAlignment="Top" HorizontalContentAlignment="Right">
-            <MenuItem Header="SEARCH INVOICES   " Margin="500,25,0,0"></MenuItem>
-            <MenuItem Header="EDIT ITEMS" Margin="0,25,0,0" BorderThickness="1"></MenuItem>
+            <MenuItem x:Name="searchInvoicesBtn" Header="SEARCH INVOICES   " Margin="500,25,0,0" Click="searchInvoicesBtnClicked"></MenuItem>
+            <MenuItem x:Name="editItemsBtn" Header="EDIT ITEMS" Margin="0,25,0,0" BorderThickness="1" Click="editItemsBtnClicked"></MenuItem>
         </Menu>
 
-        <GroupBox x:Name="currentInvoice" Header="Current Invoice" HorizontalAlignment="Left" Margin="30,249,0,79" VerticalAlignment="Center" Height="370" Width="425" FontSize="24" BorderThickness="5" FontFamily="Segoe UI Semibold">
-            <Grid x:Name="currentInvoiceGrid" Visibility="Visible" Margin="0,0,0,0">
+        <GroupBox x:Name="currentInvoiceGroupBox" Visibility="Collapsed" Header="Current Invoice" HorizontalAlignment="Left" Margin="30,249,0,79" VerticalAlignment="Center" Height="370" Width="425" FontSize="24" BorderThickness="5" FontFamily="Segoe UI Semibold">
+            <Grid x:Name="currentInvoiceGrid" Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48*"/>
                     <ColumnDefinition Width="140*"/>
@@ -62,22 +62,110 @@
                     <RowDefinition Height="200*"/>
                     <RowDefinition Height="200*"/>
                 </Grid.RowDefinitions>
-                <Label Content="Number:" Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,20,0,0" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
-                <Label Content="Date:" Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,19.333,0,17.333" VerticalAlignment="Center" Grid.Row="1" Height="50" Width="150" Grid.ColumnSpan="2"/>
-                <Label Content="Items:"  Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,19.667,0,17" VerticalAlignment="Center" Grid.Row="2" Height="50" Width="150" Grid.ColumnSpan="2"/>
-                <Label Content="Total:" Grid.Row="3"  Foreground="Black" HorizontalAlignment="Right" FontSize="20" Margin="20,20,0,16.667" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
-                <Label x:Name="invoiceNumber" Content="1" Grid.Column="2" FontSize="20" Foreground="Black" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
+                <Label Content="Number:" HorizontalAlignment="Right" Margin="20,20,0,0" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Date:" HorizontalAlignment="Right" Margin="20,19.333,0,17.333" VerticalAlignment="Center" Grid.Row="1" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Items:" HorizontalAlignment="Right" Margin="20,19.667,0,17" VerticalAlignment="Center" Grid.Row="2" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Total:" Grid.Row="3" HorizontalAlignment="Right" Margin="20,20,0,16.667" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
+                <Label x:Name="invoiceNumber" Content="1" Grid.Column="2" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
                 <DatePicker x:Name="invoiceDate" Grid.Column="2" FontSize="15" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120" Grid.Row="1"/>
                 <ComboBox x:Name="invoiceItems" Grid.Column="2" FontSize="15" Grid.Row="2" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120"/>
-                <Label x:Name="invoiceTotal" Content="$100.00" Grid.Row="3" Grid.Column="2" FontSize="20" Foreground="Black" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
+                <Label x:Name="invoiceTotal" Content="$100.00" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="emptyInvoieGroupBox" Visibility="Collapsed" Header="Select Invoice" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Center" Height="430" Width="425" FontSize="24" BorderThickness="5" FontFamily="Segoe UI Semibold">
+            <Grid x:Name="emptyInvoiceGrid" Margin="0,0,0,0">
+                <Label HorizontalContentAlignment="Center" Foreground="#72BB53" VerticalAlignment="Center" Margin="0,0,0,50" Content="Search an existing invoice" MouseDown="searchInvoicesBtnClicked" ></Label>
+                <Label HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Content="or" ></Label>
+                <Label HorizontalContentAlignment="Center" Foreground="#72BB53" VerticalAlignment="Center" Margin="0,50,0,0" Content="Create a new invoice" MouseDown="createNewInvoiceBtnClicked" ></Label>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="createInvoiceGroupBox" Visibility="Collapsed" Header="Create Invoice" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Center" Height="430" Width="445" FontSize="24" BorderThickness="5" FontFamily="Segoe UI Semibold">
+            <Grid Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48*"/>
+                    <ColumnDefinition Width="140*"/>
+                    <ColumnDefinition Width="225*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Date:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Height="30" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Items:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,30" Height="30" Grid.Row="1" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Invoice Items:" HorizontalAlignment="Right" Margin="0,0,0,30" VerticalAlignment="Center" Grid.Row="2" Height="30" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Total:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Width="150" Grid.ColumnSpan="2"/>
+                <Button Content="Cancel" Padding="10,4,10,4" FontSize="23" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,30,10" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                <Button Content="Create Invoice" Padding="10,4,10,4" FontSize="23" Grid.Row="4" Grid.Column="3" Margin="0,0,30,10" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                <Label x:Name="createInvoiceTotal" Content="$100.00" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="150" VerticalContentAlignment="Center"/>
+                <DataGrid x:Name="createInvoiceItemsDataGrid" FontSize="10" Grid.Row="1" Grid.Column="3" AutoGenerateColumns="false" Margin="0,30,30,10" CurrentCellChanged="datagridCellClicked">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" IsReadOnly="True" Width="1*" Binding="{Binding itemDescription}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Cost" Width="1*" Binding="{Binding cost}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Content="Click on item name to add them to the invoice" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Margin="0,15,0,0" Foreground="Red" VerticalContentAlignment="Center"/>
+                <DataGrid x:Name="createInvoiceInvoiceItemsDataGrid" FontSize="10" Grid.Row="2" Grid.Column="3" AutoGenerateColumns="false" Margin="0,30,30,10" CurrentCellChanged="datagridCellClicked">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" IsReadOnly="True" Width="1*" Binding="{Binding itemDescription}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Cost" Width="1*" Binding="{Binding cost}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Content="Click on item name to remove it from the invoice" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Margin="0,15,0,0" Foreground="Red" VerticalContentAlignment="Center"/>
+                <DatePicker x:Name="createInvoiceDatePicker" Grid.Column="2" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Grid.Row="0"/>         
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="editInvoiceGroupBox" Visibility="Collapsed" Header="Edit Invoice" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Center" Height="430" Width="445" FontSize="24" BorderThickness="5" FontFamily="Segoe UI Semibold">
+            <Grid Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48*"/>
+                    <ColumnDefinition Width="140*"/>
+                    <ColumnDefinition Width="225*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Date:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Height="30" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Items:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,30" Height="30" Grid.Row="1" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Invoice Items:" HorizontalAlignment="Right" Margin="0,0,0,30" VerticalAlignment="Center" Grid.Row="2" Height="30" Width="150" Grid.ColumnSpan="2"/>
+                <Label Content="Total:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Height="30" Width="150" Grid.ColumnSpan="2"/>
+                <Button Content="Cancel" Padding="10,4,10,4" FontSize="23" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,30,10" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                <Button Content="Create Invoice" Padding="10,4,10,4" FontSize="23" Grid.Row="4" Grid.Column="3" Margin="0,0,30,10" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                <Label x:Name="editInvoiceTotal" Content="$100.00" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="150" VerticalContentAlignment="Center"/>
+                <DataGrid x:Name="editInvoiceItemsDataGrid" FontSize="10" Grid.Row="1" Grid.Column="3" AutoGenerateColumns="false" Margin="0,30,30,10" CurrentCellChanged="datagridCellClicked">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" IsReadOnly="True" Width="1*" Binding="{Binding itemDescription}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Cost" Width="1*" Binding="{Binding cost}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Content="Click on item name to add them to the invoice" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Margin="0,15,0,0" Foreground="Red" VerticalContentAlignment="Center"/>
+                <DataGrid x:Name="editInvoiceInvoiceItemsDataGrid" FontSize="10" Grid.Row="2" Grid.Column="3" AutoGenerateColumns="false" Margin="0,30,30,10" CurrentCellChanged="datagridCellClicked">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" IsReadOnly="True" Width="1*" Binding="{Binding itemDescription}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Cost" Width="1*" Binding="{Binding cost}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Content="Click on item name to remove it from the invoice" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="9" Margin="0,15,0,0" Foreground="Red" VerticalContentAlignment="Center"/>
+                <DatePicker x:Name="editInvoiceDatePicker" Grid.Column="2" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Grid.Row="0"/>
             </Grid>
         </GroupBox>
 
         <StackPanel Orientation="Vertical" Margin="330,250,0,0" HorizontalAlignment="Right" Width="500" Height="400" VerticalAlignment="Top">
-            <Button Content="Create New Invoice" Height="100" Margin="30,15,30,15"/>
-            <Button Content="Edit Current Invoice" Height="100" Margin="30,15,30,15"/>
-            <Button Content="Delete Current Invoice" Height="100" Margin="30,15,30,15"/>
+            <Button x:Name="createNewInvoiceBtn" Content="Create New Invoice" Height="100" Margin="30,15,30,15" Click="createNewInvoiceBtnClicked"/>
+            <Button x:Name="editCurrentInvoiceBtn" Content="Edit Current Invoice" Height="100" Margin="30,15,30,15" Click="editCurrentInvoiceBtnClicked"/>
+            <Button x:Name="deleteCurrentInvoiceBtn" Content="Delete Current Invoice" Height="100" Margin="30,15,30,15" Click="deleteCurrentInvoiceBtnClicked"/>
         </StackPanel>
+        
+        
 
 
     </Grid>
