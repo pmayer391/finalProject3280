@@ -41,6 +41,31 @@ namespace FinalProject.Main
             sql = "SELECT MAX(InvoiceNum) FROM Invoices";
             return sql;
         }
+
+        /// <summary>
+        /// SQL string that queries back all the items in the ItemDesc table.
+        /// </summary>
+        /// <returns></returns>
+        public string GetItems()
+        {
+            sql = "SELECT * FROM ItemDesc";
+            return sql;
+        }
+
+        /// <summary>
+        /// SQL string that creates a new Line Item Object in the LineItems Table.
+        /// </summary>
+        /// <param name="invoiceNum"></param>
+        /// <param name="itemCode"></param>
+        /// <param name="lineItemNum"></param>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public string CreateNewLineItem(string invoiceNum, string itemCode, string lineItemNum, string cost)
+        {
+            sql = "INSERT INTO LineItems (InvoiceNum, ItemCode, LineItemNum, Cost)" +
+                " Values (" + invoiceNum + ", " + itemCode + ", " + lineItemNum + ", " + cost + ")";
+            return sql;
+        }
         #endregion
     }
 }

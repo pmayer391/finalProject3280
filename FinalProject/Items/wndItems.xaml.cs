@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FinalProject.Main;
 
 namespace FinalProject.Items
 {
@@ -19,9 +20,12 @@ namespace FinalProject.Items
     /// </summary>
     public partial class wndItems : Window
     {
-        public wndItems()
+        MainWindow mainWindow;
+
+        public wndItems(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
         }
     }
 }
