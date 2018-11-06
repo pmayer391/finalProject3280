@@ -5,6 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinalProject.Items"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="525">
-    <Grid/>
+
+        Title="MainWindow" Height="371.2" Width="561" Closing="Window_Closing">
+    <Grid>
+        <ListBox x:Name="ListBox1" HorizontalAlignment="Left" Height="291" Margin="25,25,0,0" VerticalAlignment="Top" Width="166" SelectionChanged="ListBox1_SelectionChanged"/>
+        <GroupBox Header="Item Info" HorizontalAlignment="Left" Height="131" Margin="200,185,0,0" VerticalAlignment="Top" Width="331">
+            <Label Content="Cost:" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top"/>
+        </GroupBox>
+        <Button Content="Delete Item" HorizontalAlignment="Left" Margin="217,25,0,0" VerticalAlignment="Top" Width="120" Height="33"/>
+        <Button Content="New Item" HorizontalAlignment="Left" Margin="217,78,0,0" VerticalAlignment="Top" Width="120" Height="35"/>
+        <Button Content="Update Item" HorizontalAlignment="Left" Margin="217,132,0,0" VerticalAlignment="Top" Width="120" Height="35"/>
+        <Label Content="Code:" HorizontalAlignment="Left" Margin="217,212,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="262,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="253"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="262,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="253"/>
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="217,274,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="33" Margin="289,274,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
+
+    </Grid>
+
 </Window>
