@@ -53,3 +53,4 @@ C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\F
 C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.csproj.CoreCompileInputs.cache
 C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.exe
 C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.pdb
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.csprojResolveAssemblyReference.cache
