@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,11 +20,6 @@ namespace FinalProject
         public string itemCode { get; set; }
 
         /// <summary>
-        /// Item description property
-        /// </summary>
-        public string itemDescription { get; set; }
-
-        /// <summary>
         /// Line item number property.
         /// </summary>
         public string lineItemNum { get; set; }
@@ -33,20 +29,25 @@ namespace FinalProject
         /// </summary>
         public decimal cost { get; set; }
 
+        /// <summary>
+        /// Item name or description.
+        /// </summary>
+        public string itemDesc { get; set; }
+
         //TODO: REMOVE THIS IF NOT NEEDED LATER ON.
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public override string ToString()
-        //{
-        //    try
-        //    {
-        //        return "";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        //    }
-        //}
+        /// <summary>
+        /// Formatted string for this class.
+        /// </summary>
+        public override string ToString()
+        {
+            try
+            {
+                return "" + itemDesc + "   $" + cost;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
     }
 }
