@@ -36,7 +36,7 @@ namespace FinalProject.Search
         {
             this.Close();
             mainWindow.IsEnabled = true;
-            //mainWindow.currentInvoice = invoiceObjectThatTheUserSelects;
+            mainWindow.setupView();
         }
 
         /// <summary>
@@ -50,6 +50,7 @@ namespace FinalProject.Search
             this.Close();
             mainWindow.IsEnabled = true;
             //mainWindow.currentInvoice = invoiceObjectThatTheUserSelects;
+            mainWindow.setupView();
 
             //The selected invoiceNum will be passed to the main form as 'iSelectedInvoiceNum'
             //This method will call another method from clsSearchLogic, 'selectedInvoiceID' to get the selected invoiceID

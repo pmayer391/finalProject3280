@@ -36,7 +36,7 @@
             <ComboBox Grid.Row="0" Grid.Column="1" Name="cboInvoiceNum" Text="Invoice Num" Margin="22"></ComboBox>
             <ComboBox Grid.Row="1" Grid.Column="1" Name="cboInvoiceDate" Text="Invoice Date" Margin="22"></ComboBox>
             <ComboBox Grid.Row="2" Grid.Column="1" Name="cboInvoiceCost" Text="Invoice Cost" Margin="22"></ComboBox>
-            <Button Grid.Row="3" Grid.Column="1" Name="btnSave" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold">Save</Button>
+            <Button Grid.Row="3" Grid.Column="1" Name="btnSave" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnSave_Click">Save</Button>
             <Button Grid.Row="4" Grid.Column="1" Name="btnCancel" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnCancel_Click">Cancel</Button>
 
             
