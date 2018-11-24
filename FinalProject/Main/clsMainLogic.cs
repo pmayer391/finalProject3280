@@ -210,7 +210,7 @@ namespace FinalProject.Main
                 foreach (LineItem item in currentInvoiceItems)
                 {
                     int rowsDeleted = dbManager.ExecuteNonQuery(sqlStatements.DeleteLineItem(currentInvoice.invoiceNum, item.itemCode, item.lineItemNum));
-                    Console.WriteLine("Rows Deleted: " + rowsDeleted);
+                    Console.WriteLine("Line Items Deleted: " + rowsDeleted);
                 }
 
                 //Delete the invoice

@@ -34,7 +34,6 @@ namespace FinalProject
         /// </summary>
         public string itemDesc { get; set; }
 
-        //TODO: REMOVE THIS IF NOT NEEDED LATER ON.
         /// <summary>
         /// Formatted string for this class.
         /// </summary>

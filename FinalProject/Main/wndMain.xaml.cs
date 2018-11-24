@@ -89,7 +89,6 @@ namespace FinalProject
             {
                 Search.wndSearch searchWindow = new Search.wndSearch(this);
                 this.IsEnabled = false;
-                this.Close();
                 searchWindow.ShowDialog();
             }
             catch (Exception ex)
@@ -109,7 +108,6 @@ namespace FinalProject
             {
                 Items.wndItems itemsWindow = new Items.wndItems(this);
                 this.IsEnabled = false;
-                this.Close();
                 itemsWindow.ShowDialog();
             }
             catch (Exception ex)
