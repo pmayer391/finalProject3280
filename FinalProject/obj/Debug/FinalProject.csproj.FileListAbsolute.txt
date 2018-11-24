@@ -14,7 +14,16 @@ C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\Fina
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\FinalProject.csproj.GenerateResource.Cache
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\FinalProject.exe
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\FinalProject.pdb
+<<<<<<< HEAD
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\bin\Debug\FinalProject.pdb
+=======
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Main\wndMain.g.cs
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Main\wndMain.baml
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Items\wndItems.g.cs
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Search\wndSearch.g.cs
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Items\wndItems.baml
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\Search\wndSearch.baml
+>>>>>>> Rachel-dev
 C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\FinalProject.csprojResolveAssemblyReference.cache
 C:\Users\natel\OneDrive\Documents\GitHub\finalProject3280\FinalProject\bin\Debug\FinalProject.exe.config
 C:\Users\natel\OneDrive\Documents\GitHub\finalProject3280\FinalProject\bin\Debug\FinalProject.exe
@@ -34,3 +43,22 @@ C:\Users\natel\OneDrive\Documents\GitHub\finalProject3280\FinalProject\obj\Debug
 C:\Users\natel\OneDrive\Documents\GitHub\finalProject3280\FinalProject\obj\Debug\FinalProject.csproj.CoreCompileInputs.cache
 C:\Users\natel\OneDrive\Documents\GitHub\finalProject3280\FinalProject\obj\Debug\FinalProject.exe
 C:\Users\natel\OneDrive\Documents\GitHub\finalProject3280\FinalProject\obj\Debug\FinalProject.pdb
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\bin\Debug\FinalProject.exe.config
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\bin\Debug\FinalProject.exe
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\bin\Debug\FinalProject.pdb
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\Items\wndItems.g.cs
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\Main\wndMain.g.cs
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\Search\wndSearch.g.cs
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\App.g.cs
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject_MarkupCompile.cache
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject_MarkupCompile.lref
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\Items\wndItems.baml
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\Main\wndMain.baml
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\Search\wndSearch.baml
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.g.resources
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.Properties.Resources.resources
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.csproj.GenerateResource.Cache
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.csproj.CoreCompileInputs.cache
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.exe
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.pdb
+C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.csprojResolveAssemblyReference.cache
