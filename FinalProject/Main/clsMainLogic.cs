@@ -11,21 +11,22 @@ namespace FinalProject.Main
 {
     class clsMainLogic
     {
+        /// <summary>
+        /// Access the clsDataAccess class to execute queries to the database.
+        /// </summary>
         clsDataAccess dbManager = new clsDataAccess();
+
+        /// <summary>
+        /// Accesses the SQL statements. 
+        /// </summary>
         clsMainSQL sqlStatements = new clsMainSQL();
 
-        public decimal calculateTotal(List<LineItem> lineItems)
-        {
-            decimal total = 0.00m;
-
-            foreach(LineItem lineItem in lineItems)
-            {
-                total += lineItem.cost; 
-            }
-
-            return total;
-        }
-
+        /// <summary>
+        /// Creates a new invoice in the database and returns that invoice to the caller.
+        /// </summary>
+        /// <param name="currentInvoice"></param>
+        /// <param name="currentInvoiceItems"></param>
+        /// <returns></returns>
         public Invoice createNewInvoice(Invoice currentInvoice, List<LineItem> currentInvoiceItems)
         {
             try
@@ -67,6 +68,11 @@ namespace FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// Returns all the line items for a particular invoice.
+        /// </summary>
+        /// <param name="invoiceNum"></param>
+        /// <returns></returns>
         public List<LineItem> getAllLineItems(string invoiceNum)
         {
             try
@@ -99,6 +105,11 @@ namespace FinalProject.Main
 
         }
 
+        /// <summary>
+        /// Updates a particular invoice. 
+        /// </summary>
+        /// <param name="currentInvoice"></param>
+        /// <param name="currentInvoiceItems"></param>
         public void updateInvoice(Invoice currentInvoice, List<LineItem> currentInvoiceItems)
         {
             try
@@ -110,7 +121,7 @@ namespace FinalProject.Main
                     Console.WriteLine("Rows Deleted: " + rowsDeleted);
                 }
 
-                //Reinsert all line items for that invoice.
+                //Reinsert all line items for that invoice with the correct price if that was changed.
                 foreach (LineItem item in currentInvoiceItems)
                 {
                     int numberOfRowsAffected =
@@ -135,6 +146,10 @@ namespace FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// Gets all the items that our business sells.
+        /// </summary>
+        /// <returns></returns>
         public List<ItemDesc> getItems()
         {
             try
@@ -164,6 +179,11 @@ namespace FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// Removes all the line items for a particular invoice.
+        /// </summary>
+        /// <param name="currentInvoice"></param>
+        /// <param name="item"></param>
         public void deleteLineItem(Invoice currentInvoice, LineItem item)
         {
             try
@@ -177,6 +197,11 @@ namespace FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// Deletes an invoice with its accompany line items from the db.
+        /// </summary>
+        /// <param name="currentInvoice"></param>
+        /// <param name="currentInvoiceItems"></param>
         public void deleteInvoice(Invoice currentInvoice, List<LineItem> currentInvoiceItems)
         {
             try
@@ -198,6 +223,11 @@ namespace FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// Converts a string to a decimal(money values). 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public decimal convertStringToDecimal(string input)
         {
             try
