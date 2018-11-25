@@ -21,11 +21,12 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <Grid Margin="429,75,56,51">
+        <Grid Margin="429,75,56,17">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -36,8 +37,9 @@
             <ComboBox Grid.Row="0" Grid.Column="1" Name="cboInvoiceNum" Text="Invoice Num" Margin="22"></ComboBox>
             <ComboBox Grid.Row="1" Grid.Column="1" Name="cboInvoiceDate" Text="Invoice Date" Margin="22"></ComboBox>
             <ComboBox Grid.Row="2" Grid.Column="1" Name="cboInvoiceCost" Text="Invoice Cost" Margin="22"></ComboBox>
-            <Button Grid.Row="3" Grid.Column="1" Name="btnSave" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold">Save</Button>
-            <Button Grid.Row="4" Grid.Column="1" Name="btnCancel" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnCancel_Click">Cancel</Button>
+            <Button Grid.Row="3" Grid.Column="1" Name="btnClear" Margin="40 20 40 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnClear_Click">Clear</Button> 
+            <Button Grid.Row="4" Grid.Column="1" Name="btnSave" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnSave_Click">Select</Button>
+            <Button Grid.Row="5" Grid.Column="1" Name="btnCancel" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnCancel_Click">Cancel</Button>
 
             
         </Grid>
