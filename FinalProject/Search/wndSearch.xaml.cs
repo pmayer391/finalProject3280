@@ -51,7 +51,7 @@ namespace FinalProject.Search
             mainWindow.IsEnabled = true;
             //mainWindow.currentInvoice = invoiceObjectThatTheUserSelects;
 
-            //The selected invoiceNum will be passed to the main form as 'iSelectedInvoiceNum'
+            //The selected invoiceNum will be passed to the main form as 'iSelectedinvoiceNum'
             //This method will call another method from clsSearchLogic, 'selectedInvoiceID' to get the selected invoiceID
             //from the datagrid then pass it to the main form
         }
