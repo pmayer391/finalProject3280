@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,16 +28,16 @@ namespace FinalProject
         ///// <summary>
         ///// 
         ///// </summary>
-        //public override string ToString()
-        //{
-        //    try
-        //    {
-        //        return "";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        //    }
-        //}
+        public override string ToString()
+        {
+            try
+            {
+                return "" + itemDescription;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
     }
 }

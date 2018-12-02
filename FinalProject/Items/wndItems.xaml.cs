@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,30 +29,28 @@ namespace FinalProject.Items
         MainWindow mainWindow;
 
         /// <summary>
-        /// holds some dummy data.
+        /// Holds all the logic of the wndItems window.
         /// </summary>
-        string[] arr;
+        clsItemsLogic logic;
 
         /// <summary>
-        /// If the items table has been changed this will be set to true
+        /// Constructor that will initialize this window.
         /// </summary>
-        public bool newItemData;
-
+        /// <param name="mainWindow"></param>
         public wndItems(MainWindow mainWindow)
         {
-            InitializeComponent();
-            this.mainWindow = mainWindow;
-            //dummy data that is added to the list box
+            try
+            {
+                InitializeComponent();
+                this.mainWindow = mainWindow;
 
-            arr = new string[10] {"1","2","3","4","5","6","7","8","9","10" };
-            ListBox1.Items.Add(arr[0]);
-            ListBox1.Items.Add(arr[1]);
-            ListBox1.Items.Add(arr[2]);
-            ListBox1.Items.Add(arr[3]);
-            ListBox1.Items.Add(arr[4]);
-            ListBox1.Items.Add(arr[5]);
-            ListBox1.Items.Add(arr[6]);
-
+                logic = new clsItemsLogic();
+                UpdateGUI();
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }      
         }
 
         /// <summary>
@@ -59,9 +59,23 @@ namespace FinalProject.Items
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {            
-            Console.WriteLine(ListBox1.SelectedItem.ToString());
+        {
+            try
+            {
+                ItemDesc desc = (ItemDesc)((ListBox)sender).SelectedItem;
+                if (desc != null)
+                {
+                    txtCode.Text = desc.itemCode;
+                    txtCost.Text = "" + desc.cost;
+                    txtDescription.Text = desc.itemDescription;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
+
         /// <summary>
         /// Checks invoices to see if this item is used at all.
         /// If the item is not used anywhere, delete the item from the database.
@@ -70,8 +84,16 @@ namespace FinalProject.Items
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
-        {            
-
+        {
+            try
+            {
+                lblError.Content = logic.DeleteItem(txtCode.Text);
+                UpdateGUI();
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         /// <summary>
@@ -82,33 +104,83 @@ namespace FinalProject.Items
         /// <param name="e"></param>
         private void btnNewItem_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                lblError.Content = logic.AddItem(txtCode.Text, txtDescription.Text, txtCost.Text);
+                UpdateGUI();
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }  
         }
 
         /// <summary>
         /// Checks to see if the input is valid and then checks if the item exists 
-        /// in the data base. if both checks pass updates the intem with the new values in
+        /// in the database. if both checks pass updates the item with the new values in
         /// the database.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void BtnUpdateItem_Click(object sender, RoutedEventArgs e)
         {
-              
-             
+            try
+            {
+                lblError.Content = logic.UpdateItem(txtCode.Text, txtDescription.Text, txtCost.Text);
+                UpdateGUI();
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         /// <summary>
-        /// Refreshes the values in the text boxes 
+        /// Refreshes the values in the listbox. 
         /// </summary>
         private void UpdateGUI()
         {
-
+            ListBox1.Items.Clear();
+            foreach (ItemDesc item in logic.GetAllItems())
+            {
+                ListBox1.Items.Add(item);
+            }
         }
+
+        /// <summary>
+        /// Sets up the main window when this window is closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            mainWindow.IsEnabled = true;
-            mainWindow.setupView();
+            try
+            {
+                mainWindow.IsEnabled = true;
+                mainWindow.setupView();
+            }
+            catch (System.Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// prints an error message when an exception has taken place.
+        /// </summary>
+        /// <param name="sClass"></param>
+        /// <param name="sMethod"></param>
+        /// <param name="sMessage"></param>
+        private void HandleError(string sClass, string sMethod, string sMessage)
+        {
+            try
+            {
+                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
+            }
+            catch (System.Exception ex)
+            {
+                System.IO.File.AppendAllText("C:\\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
+            }
         }
     }
 }
