@@ -44,6 +44,8 @@
             <Label  Content="mac   invoices" FontSize="72" HorizontalAlignment="Left" Foreground="White"/>
         </StackPanel>
 
+        <Button x:Name="closeWindowBtn" Content="X" Height="50" Width="50" Background="Gray" HorizontalAlignment="Right" VerticalAlignment="Top" Click="closeWindowBtnClicked" Opacity="0.6" Foreground="White"/>
+
         <Menu Height="90" Background="#D6D6D6" Margin="0,100,0 0" VerticalAlignment="Top" HorizontalContentAlignment="Right">
             <MenuItem x:Name="searchInvoicesBtn" Header="SEARCH INVOICES   " Margin="500,25,0,0" Click="searchInvoicesBtnClicked"></MenuItem>
             <MenuItem x:Name="editItemsBtn" Header="EDIT ITEMS" Margin="0,25,0,0" BorderThickness="1" Click="editItemsBtnClicked"></MenuItem>

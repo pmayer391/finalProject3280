@@ -136,6 +136,7 @@ namespace FinalProject
                 createNewInvoiceBtn.IsEnabled = false;
                 editCurrentInvoiceBtn.IsEnabled = false;
                 deleteCurrentInvoiceBtn.IsEnabled = false;
+                editItemsBtn.IsEnabled = false;
                 currentInvoice.invoiceDate = null;
                 currentInvoice.invoiceNum = null;
                 currentInvoice.totalCost = null;
@@ -173,6 +174,7 @@ namespace FinalProject
                 editCurrentInvoiceBtn.IsEnabled = false;
                 deleteCurrentInvoiceBtn.IsEnabled = true;
                 createNewInvoiceBtn.IsEnabled = true;
+                editItemsBtn.IsEnabled = false;
 
                 editInvoiceDatePicker.SelectedDate = DateTime.Parse(currentInvoice.invoiceDate.ToString());
                 List<ItemDesc> items = mainManager.getItems();
@@ -485,11 +487,17 @@ namespace FinalProject
         /// <param name="e"></param>
         private void editInvoiceCancelBtnClicked(object sender, RoutedEventArgs e)
         {
+            editInvoiceGroupBox.Visibility = Visibility.Collapsed;
+            editCurrentInvoiceBtn.IsEnabled = true;
+            editItemsBtn.IsEnabled = true;
+            currentInvoiceGroupBox.Visibility = Visibility.Visible;
+        }
+
+        private void closeWindowBtnClicked(object sender, RoutedEventArgs e)
+        {
             try
             {
-                editInvoiceGroupBox.Visibility = Visibility.Collapsed;
-                editCurrentInvoiceBtn.IsEnabled = true;
-                currentInvoiceGroupBox.Visibility = Visibility.Visible;
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -508,6 +516,7 @@ namespace FinalProject
             {
                 editInvoiceGroupBox.Visibility = Visibility.Collapsed;
                 editCurrentInvoiceBtn.IsEnabled = true;
+                editItemsBtn.IsEnabled = true;
                 currentInvoiceGroupBox.Visibility = Visibility.Visible;
 
                 currentInvoiceDate.Text = currentInvoice.invoiceDate;
@@ -536,6 +545,7 @@ namespace FinalProject
                     emptyInvoieGroupBox.Visibility = Visibility.Visible;
                     editCurrentInvoiceBtn.IsEnabled = false;
                     deleteCurrentInvoiceBtn.IsEnabled = false;
+                    editItemsBtn.IsEnabled = true;
                 }
                 else
                 {
@@ -546,6 +556,7 @@ namespace FinalProject
                     editCurrentInvoiceBtn.IsEnabled = true;
                     createNewInvoiceBtn.IsEnabled = true;
                     deleteCurrentInvoiceBtn.IsEnabled = true;
+                    editItemsBtn.IsEnabled = true;
 
                     //Clear the current invoiceItems and repopulate it with what the database has.
                     currentInvoiceItems.Clear();
@@ -651,6 +662,6 @@ namespace FinalProject
             }
         }
 
-        
+
     }
 }
