@@ -493,6 +493,11 @@ namespace FinalProject
             currentInvoiceGroupBox.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// When the x is clicked in the upper right, this closes the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void closeWindowBtnClicked(object sender, RoutedEventArgs e)
         {
             try

@@ -140,10 +140,17 @@ namespace FinalProject.Items
         /// </summary>
         private void UpdateGUI()
         {
-            ListBox1.Items.Clear();
-            foreach (ItemDesc item in logic.GetAllItems())
+            try
             {
-                ListBox1.Items.Add(item);
+                ListBox1.Items.Clear();
+                foreach (ItemDesc item in logic.GetAllItems())
+                {
+                    ListBox1.Items.Add(item);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
