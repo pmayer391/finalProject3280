@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace FinalProject.Search
 {
@@ -16,37 +17,46 @@ namespace FinalProject.Search
         #endregion
 
 
-        #region sqlSearch Public Methods
+        /// <summary>
+        /// SQL statement to get all data from Invoice table to initially load the datagrid
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public string initialLoad()
+        {
+            sql = "SELECT InvoiceNum, Format([InvoiceDate], 'MM/DD/YYYY') AS InvoiceDate, TotalCost FROM Invoices";
+
+            return sql;
+        }
 
         /// <summary>
-        /// SQL statement to initally load the datagrid with invoice number
+        /// SQL statement to load the invoiceNum combobox with invoice number
         /// </summary>
         /// <returns>sql statement</returns>
         public string getInvoiceNum()
         {
-            sql = "SELECT InvoiceNum FROM Invoice";
+            sql = "SELECT InvoiceNum FROM Invoices";
 
             return sql;
         }
 
         /// <summary>
-        /// SQL statement to initally load the datagrid with invoice date
+        /// SQL statement to load the invoiceDate combobox with invoice date
         /// </summary>
         /// <returns>sql statement</returns>
         public string getInvoiceDate()
         {
-            sql = "SELECT InvoiceDate FROM Invoice";
+            sql = "SELECT DISTINCT Format([InvoiceDate], 'MM/DD/YYYY') AS InvoiceDate FROM Invoices";
 
             return sql;
         }
 
         /// <summary>
-        /// SQL statement to initally load the datagrid with total cost
+        /// SQL statement to load the invoiceCost combobox with total cost
         /// </summary>
         /// <returns>sql statement</returns>
         public string getInvoiceTotalCost()
         {
-            sql = "SELECT TotalCost FROM Invoices";
+            string sql = "SELECT DISTINCT TotalCost FROM Invoices";
 
             return sql;
         }
@@ -55,9 +65,9 @@ namespace FinalProject.Search
         /// SQL statement to filter the invoiceNum and invoiceDate by invoiceNum combobox
         /// </summary>
         /// <returns>sql statement</returns>
-        public string filterByInvoiceNum(int invoiceNum)
+        public static string filterByInvoiceNum(string invoiceNum)
         {
-            sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoice WHERE invoiceNum = " + invoiceNum;
+            string sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE invoiceNum = " + invoiceNum;
 
             return sql;
         }
@@ -66,9 +76,9 @@ namespace FinalProject.Search
         /// SQL statement to filter the invoiceNum invoiceDate and TotalCost by invoiceDate combobox
         /// </summary>
         /// <returns>sql statement</returns>
-        public string filterByInvoiceDate(int invoiceDate)
+        public static string filterByInvoiceDate(string invoiceDate)
         {
-            sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoice WHERE invoiceDate = " + invoiceDate;
+            string sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE invoiceDate = #" + invoiceDate  + "#";
 
             return sql;
         }
@@ -77,13 +87,176 @@ namespace FinalProject.Search
         /// SQL statement to filter the totalCost invoiceDate and TotalCost by TotalCost combobox
         /// </summary>
         /// <returns>sql statement</returns>
-        public string filterByInvoiceTotalCost(int totalCost)
+        public static string filterByInvoiceTotalCost(string totalCost)
         {
-            sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE TotalCost = " + totalCost;
+            string sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE TotalCost = " + totalCost;
 
             return sql;
         }
-        #endregion
+
+        /// <summary>
+        /// SQL statement to fill the datagrid with all invoices with selected invoice date and invoice total
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string filterByInvoiceDateTotal(string invoiceDate, string invoiceTotal) 
+        {
+            try
+            {
+                string sql = "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE TotalCost = " + invoiceTotal + " AND InvoiceDate = #" + invoiceDate + "#";
+
+                return sql;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// SQL statement to filter the InvoiceDate combobox by the InvoiceNum selected from combobox
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceDateWithNumFiltered(string invoiceNum)
+        {
+            try
+            {
+                string sql = "SELECT DISTINCT InvoiceDate FROM Invoices WHERE InvoiceNum = " + invoiceNum;
+                return sql;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+
+        }
+        
+        /// <summary>
+        /// SQL statement to filter the totalCost combobox by the InvoiceNum selected from combobox
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceTotalWithNumFiltered(string invoiceNum)
+        {
+            try
+            {
+                string sql = "SELECT DISTINCT TotalCost FROM Invoices WHERE InvoiceNum = " + invoiceNum;
+
+                return sql;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// SQL statement to filter the InvoiceNum combobox by the invoiceDate selected from combobox
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceNumsWithDateFiltered(string invoiceDate)
+        {
+            try
+            {
+                string sql = "SELECT InvoiceNum FROM Invoices WHERE InvoiceDate = # " + invoiceDate + "#";
+
+                return sql;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// SQL statement to filter the InvoiceDate combobox by the invoiceTotal selected from combobox
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceNumsWithTotalFiltered(string invoiceTotal)
+        {
+            try
+            {
+                string sql = "SELECT InvoiceNum FROM Invoices WHERE TotalCost = " + invoiceTotal;
+
+                return sql;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// SQL statement to filter the InvoiceNum combobox by the invoiceDate and invoiceTotal selected from comboboxs
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceNumsWithDateTotalFiltered(string invoiceDate, string invoiceTotal)
+        { 
+            try
+            {
+                string sql = "SELECT InvoiceNum FROM Invoices WHERE InvoiceDate = #" + invoiceDate + "# AND TotalCost = " + invoiceTotal;
+
+                return sql;
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// SQL statement to filter the InvoiceDate combobox by the InvoiceTotal selected from combobox
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceDateWithTotalFiltered(string invoiceTotal)
+        {
+            try
+            {
+                string sql = "SELECT DISTINCT InvoiceDate FROM Invoices WHERE TotalCost = " + invoiceTotal;
+
+                return sql;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// SQL statement to filter the InvoiceTotal combobox by the InvoiceDate selected from combobox
+        /// </summary>
+        /// <returns>sql statement</returns>
+        public static string getInvoiceTotalWithDateFiltered(string invoiceDate)
+        {
+            try
+            {
+                string sql = "SELECT DISTINCT TotalCost FROM Invoices WHERE InvoiceDate = #" + invoiceDate + "#";
+
+                return sql;
+            }
+
+            catch (Exception ex)
+            {
+
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+        }
+
 
     }
 }
