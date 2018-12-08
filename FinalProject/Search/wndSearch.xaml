@@ -14,11 +14,7 @@
         FontFamily="Segoe UI Semibold">
     <Grid>
         <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="368" Margin="48,74,0,0" VerticalAlignment="Top" Width="341" FontSize="16" FontFamily="Rockwell" FontWeight="SemiBold">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Invoice Num" Width="*"/>
-                <DataGridTextColumn Header="Invoice Date" Width="*"/>
-                <DataGridTextColumn Header="Total Cost" Width="*"/>
-            </DataGrid.Columns>
+
         </DataGrid>
         
         <Grid Margin="429,75,56,17">
@@ -34,14 +30,16 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ComboBox Grid.Row="0" Grid.Column="1" Name="cboInvoiceNum" Text="Invoice Num" Margin="22"></ComboBox>
-            <ComboBox Grid.Row="1" Grid.Column="1" Name="cboInvoiceDate" Text="Invoice Date" Margin="22"></ComboBox>
-            <ComboBox Grid.Row="2" Grid.Column="1" Name="cboInvoiceCost" Text="Invoice Cost" Margin="22"></ComboBox>
+            <Label Grid.Row="0" Grid.Column="1" Name="InvoiceNumlbl" Content="Invoice Number" HorizontalAlignment="Center" FontSize="12" FontWeight="SemiBold"></Label>
+            <ComboBox Grid.Row="0" Grid.Column="1" Name="cboInvoiceNum" Text="Invoice Num" Margin="22" SelectionChanged="cboInvoiceNum_SelectionChanged"></ComboBox>
+            <Label Grid.Row="1" Grid.Column="1" Name="InvoiceDatelbl" Content="Invoice Date" HorizontalAlignment="Center" FontSize="12" FontWeight="SemiBold"></Label>
+            <ComboBox Grid.Row="1" Grid.Column="1" Name="cboInvoiceDate" Text="Invoice Date" Margin="22" SelectionChanged="cboInvoiceDate_SelectionChanged"></ComboBox>
+            <Label Grid.Row="2" Grid.Column="1" Name="InvoiceCostlbl" Content="Invoice Total Cost" HorizontalAlignment="Center" FontSize="12" FontWeight="SemiBold"></Label>
+            <ComboBox Grid.Row="2" Grid.Column="1" Name="cboInvoiceCost" Text="Invoice Cost" Margin="22" SelectionChanged="cboInvoiceCost_SelectionChanged"></ComboBox>
             <Button Grid.Row="3" Grid.Column="1" Name="btnClear" Margin="40 20 40 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnClear_Click">Clear</Button> 
-            <Button Grid.Row="4" Grid.Column="1" Name="btnSave" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnSave_Click">Select</Button>
+            <Button Grid.Row="4" Grid.Column="1" Name="btnSelect" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnSelect_Click">Select</Button>
             <Button Grid.Row="5" Grid.Column="1" Name="btnCancel" Margin="30 20 30 20" FontFamily="Rockwell" FontSize="16" FontWeight="SemiBold" Click="btnCancel_Click">Cancel</Button>
 
-            
         </Grid>
 
     </Grid>
