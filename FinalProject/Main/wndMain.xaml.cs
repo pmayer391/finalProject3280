@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,6 +39,9 @@ namespace FinalProject
         /// </summary>
         Main.clsMainLogic mainManager;
 
+        /// <summary>
+        /// Constructor for the main window.
+        /// </summary>
         public MainWindow()
         {
             try
@@ -49,6 +53,7 @@ namespace FinalProject
                 mainManager = new Main.clsMainLogic();
 
                 setupView();
+
             }
             catch (Exception ex)
             {
@@ -56,6 +61,11 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Allows the user to move the window if they long click on it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void longClickDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -68,6 +78,11 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Processes the search invoice button click and sends the user to the search window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void searchInvoicesBtnClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -82,6 +97,11 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Processes the edit item button click and sends the user to the edit items window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void editItemsBtnClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -96,11 +116,15 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Opens the create invoice combo box which then allows a user to create a new invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createNewInvoiceBtnClicked(object sender, RoutedEventArgs e)
         {
             try
             {
-                //Show the Create Invoice Group Box
                 if(editInvoiceGroupBox.Visibility == Visibility.Visible)
                     editInvoiceGroupBox.Visibility = Visibility.Collapsed;
                 if (emptyInvoieGroupBox.Visibility == Visibility.Visible)
@@ -109,6 +133,24 @@ namespace FinalProject
                     currentInvoiceGroupBox.Visibility = Visibility.Collapsed;
 
                 createInvoiceGroupBox.Visibility = Visibility.Visible;
+                createNewInvoiceBtn.IsEnabled = false;
+                editCurrentInvoiceBtn.IsEnabled = false;
+                deleteCurrentInvoiceBtn.IsEnabled = false;
+                editItemsBtn.IsEnabled = false;
+                currentInvoice.invoiceDate = null;
+                currentInvoice.invoiceNum = null;
+                currentInvoice.totalCost = null;
+                currentInvoiceItems.Clear();
+
+                createInvoiceDatePicker.SelectedDate = null;
+                createInvoiceDatePicker.DisplayDate = DateTime.Today;
+                createInvoiceInvoiceItemsDataGrid.ItemsSource = currentInvoiceItems;
+                createInvoiceInvoiceItemsDataGrid.Items.Refresh();
+
+                List<ItemDesc> items = mainManager.getItems();
+                createInvoiceItemsDataGrid.ItemsSource = items;
+                createInvoiceInvoiceItemsDataGrid.ItemsSource = currentInvoiceItems;
+
             }
             catch (Exception ex)
             {
@@ -116,19 +158,31 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Shows the Edit Items Group Box and allows the user to edit the currently selected invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void editCurrentInvoiceBtnClicked(object sender, RoutedEventArgs e)
         {
             try
             {
-                //Show the Edit Items Group Box and hide the currentInvoiceGroupBox
-                if (createInvoiceGroupBox.Visibility == Visibility.Visible)
-                    createInvoiceGroupBox.Visibility = Visibility.Collapsed;
-                if (emptyInvoieGroupBox.Visibility == Visibility.Visible)
-                    emptyInvoieGroupBox.Visibility = Visibility.Collapsed;
-                if (currentInvoiceGroupBox.Visibility == Visibility.Visible)
-                    currentInvoiceGroupBox.Visibility = Visibility.Collapsed;
-
+                createInvoiceGroupBox.Visibility = Visibility.Collapsed;
+                emptyInvoieGroupBox.Visibility = Visibility.Collapsed;
+                currentInvoiceGroupBox.Visibility = Visibility.Collapsed;
                 editInvoiceGroupBox.Visibility = Visibility.Visible;
+                editCurrentInvoiceBtn.IsEnabled = false;
+                deleteCurrentInvoiceBtn.IsEnabled = true;
+                createNewInvoiceBtn.IsEnabled = true;
+                editItemsBtn.IsEnabled = false;
+
+                editInvoiceDatePicker.SelectedDate = DateTime.Parse(currentInvoice.invoiceDate.ToString());
+                List<ItemDesc> items = mainManager.getItems();
+                editInvoiceItemsDataGrid.ItemsSource = items;
+                editInvoiceInvoiceItemsDataGrid.ItemsSource = currentInvoiceItems;
+                editInvoiceInvoiceItemsDataGrid.Items.Refresh();
+                editInvoiceTotal.Content = currentInvoice.totalCost;
+
             }
             catch (Exception ex)
             {
@@ -136,6 +190,11 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Deletes the current invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteCurrentInvoiceBtnClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -153,6 +212,8 @@ namespace FinalProject
                 if (rsltMessageBox.Equals(MessageBoxResult.Yes))
                 {
                     //TODO: Delete Invoice from db and update UI.
+                    mainManager.deleteInvoice(currentInvoice, currentInvoiceItems);
+                    closeInvoice();
                 }
             }
             catch (Exception ex)
@@ -161,6 +222,319 @@ namespace FinalProject
             }
         }
 
+        /// <summary>
+        /// Whenever any datagrid's item name is double clicked this method is triggered,
+        /// and depending on which datagrid is clicked it will either add an item to the current 
+        /// invoice or it will remove it from the current invoice. Note the current invoice could 
+        /// also be the invoice the user is creating.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void doubleClickDataGridName(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                //Process only clicks that are part of an actual Datagrid cell.
+                //Ex. If the click happens on the datagrid header or scroll bar
+                //then ignore those clicks. 
+                DependencyObject dep = (DependencyObject)e.OriginalSource;
+
+                //Traverse the visual tree
+                while((dep != null) && !(dep is TextBlock))
+                {
+                    dep = VisualTreeHelper.GetParent(dep);
+                }
+                if (dep is TextBlock)
+                {
+                    DataGrid dataGrid = (DataGrid)sender;
+
+                    //----CREATE INVOICE----
+                    //Add items from the invoice if this grid is clicked
+                    if (dataGrid.Name == "createInvoiceItemsDataGrid")
+                    {
+                        if (dataGrid.CurrentColumn.DisplayIndex == 0)
+                        {
+                            //Convert the ItemDesc to a LineItem so it can be linked to this invoice.
+                            ItemDesc itemClicked = (ItemDesc)dataGrid.CurrentItem;
+                            LineItem lineItem = new LineItem();
+                            lineItem.invoiceNum = currentInvoice.invoiceNum;
+                            lineItem.itemCode = itemClicked.itemCode;
+                            lineItem.cost = itemClicked.cost;
+                            lineItem.itemDesc = itemClicked.itemDescription;
+                            
+                            //Add item to the list and update the UI/datagrid.
+                            currentInvoiceItems.Add(lineItem);
+                            createInvoiceInvoiceItemsDataGrid.Items.Refresh();
+
+                            int indexOfLineItem = currentInvoiceItems.IndexOf(lineItem);
+                            currentInvoiceItems[indexOfLineItem].lineItemNum = indexOfLineItem.ToString();
+                        }
+                    }
+                    //Remove items from the invoice if this grid is clicked
+                    else if (dataGrid.Name == "createInvoiceInvoiceItemsDataGrid")
+                    {
+                        if (dataGrid.CurrentColumn.DisplayIndex == 0)
+                        {
+                            LineItem itemClicked = (LineItem)dataGrid.CurrentItem;
+                            currentInvoiceItems.Remove(itemClicked);
+                            
+                            //In order for the datagrid to update, these lines have to be included.
+                            dataGrid.CommitEdit();
+                            dataGrid.CommitEdit();
+
+                            //Update the UI/datagrid when an item is removed.
+                            createInvoiceInvoiceItemsDataGrid.Items.Refresh();
+                        }
+                    }
+
+                    //----EDIT INVOICE----
+                    //Add items from the invoice if this grid is clicked
+                    else if (dataGrid.Name == "editInvoiceItemsDataGrid")
+                    {
+                        if (dataGrid.CurrentColumn.DisplayIndex == 0)
+                        {
+                            //Convert the ItemDesc to a LineItem so it can be linked to this invoice.
+                            ItemDesc itemClicked = (ItemDesc)dataGrid.CurrentItem;
+                            LineItem lineItem = new LineItem();
+                            lineItem.invoiceNum = currentInvoice.invoiceNum;
+                            lineItem.itemCode = itemClicked.itemCode;
+                            lineItem.cost = itemClicked.cost;
+                            lineItem.itemDesc = itemClicked.itemDescription;
+
+                            //Add item to the list and update the UI/datagrid.
+                            currentInvoiceItems.Add(lineItem);
+                            editInvoiceInvoiceItemsDataGrid.Items.Refresh();
+
+                            int indexOfLineItem = currentInvoiceItems.IndexOf(lineItem);
+                            currentInvoiceItems[indexOfLineItem].lineItemNum = indexOfLineItem.ToString();
+                        }
+                    }
+                    //Remove items from the invoice if this grid is clicked
+                    else if (dataGrid.Name == "editInvoiceInvoiceItemsDataGrid")
+                    {
+                        if (dataGrid.CurrentColumn.DisplayIndex == 0)
+                        {
+                            LineItem itemClicked = (LineItem)dataGrid.CurrentItem;
+                            currentInvoiceItems.Remove(itemClicked);
+
+                            ////In order for the datagrid to update, these lines have to be included.
+                            dataGrid.CommitEdit();
+                            dataGrid.CommitEdit();
+
+                            //Update the UI/datagrid when an item is removed.
+                            editInvoiceInvoiceItemsDataGrid.Items.Refresh();
+
+                            //Update the database
+                            mainManager.deleteLineItem(currentInvoice, itemClicked);
+                        }
+                    }
+
+                    calculateTotal();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Allows the user to edit the cost of any item that they have added to the current invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cellInvoiceCostChanged(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            try
+            {
+                //Regular Expression to accept decimals
+                Regex regex = new Regex(@"^\d+\.?\d*$");
+                DataGrid dataGridSelected = (DataGrid)sender;
+                if (e.EditAction == DataGridEditAction.Commit)
+                {
+                    var column = e.Column as DataGridBoundColumn;
+
+                    if (column != null)
+                    {
+                        //The index of the row that was clicked which is also the lineItemNumber for each Line Item in the currentInvoiceItemsArray.
+                        int rowClickedIndex = e.Row.GetIndex();
+                        var textBoxEditing = e.EditingElement as TextBox;
+                        string newItemCost = textBoxEditing.Text;
+
+                        //Validate input from user is of decimal format.
+                        if (regex.IsMatch(newItemCost))
+                        {
+                            //Get the lineItem that was clicked so it can be updated.
+                            LineItem lineItemClicked = currentInvoiceItems[rowClickedIndex];
+
+                            //Convert the user input to a decimal
+                            decimal cost = decimal.Parse(newItemCost);
+
+                            //Update the items cost
+                            lineItemClicked.cost = cost;
+
+                            //Calculate new total
+                            calculateTotal();
+
+
+                            if (editInvoiceGroupBox.Visibility == Visibility.Visible)
+                            {
+                                createNewInvoiceBtn.IsEnabled = true;
+                            }
+
+                            editItemsBtn.IsEnabled = true;
+                            searchInvoicesBtn.IsEnabled = true;
+                            createInvoiceCreateInvoiceBtn.IsEnabled = true;
+
+                        }
+                        else
+                        {
+                            editCurrentInvoiceBtn.IsEnabled = false;
+                            createNewInvoiceBtn.IsEnabled = false;
+                            editItemsBtn.IsEnabled = false;
+                            searchInvoicesBtn.IsEnabled = false;
+                            createInvoiceCreateInvoiceBtn.IsEnabled = false;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// If the user cancels the invoice they are creating this function calls the close invoice function.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createInvoiceCancelBtnClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                closeInvoice();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// If the user is creating a new invoice this is the submit button that will save the invoice to the 
+        /// database along with all the line items for that invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createInvoice(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (currentInvoice.totalCost == null)
+                {
+                    MessageBox.Show("All Fields must be completed before creating an invoice");
+                }
+                else
+                {
+                    decimal totalCost = decimal.Parse(currentInvoice.totalCost);
+
+                    if (currentInvoice.invoiceDate == null || totalCost == 0.00m)
+                    {
+                        MessageBox.Show("All Fields must be completed before creating an invoice");
+                    }
+                    else
+                    {
+                        if (createInvoiceGroupBox.Visibility == Visibility.Visible)
+                        {
+                            Invoice invoiceCreated = mainManager.createNewInvoice(currentInvoice, currentInvoiceItems);
+                            currentInvoice.invoiceNum = invoiceCreated.invoiceNum;
+
+                            setupView();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Processes the users data that is changed and saves it to the current invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void calenderClosed(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DatePicker datePicker = (DatePicker)sender;
+                currentInvoice.invoiceDate = datePicker.SelectedDate.Value.Date.ToShortDateString();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Cancels the edits if the user is editing an invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void editInvoiceCancelBtnClicked(object sender, RoutedEventArgs e)
+        {
+            editInvoiceGroupBox.Visibility = Visibility.Collapsed;
+            editCurrentInvoiceBtn.IsEnabled = true;
+            editItemsBtn.IsEnabled = true;
+            currentInvoiceGroupBox.Visibility = Visibility.Visible;
+        }
+
+        private void closeWindowBtnClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This is the submit button for when a user is editing an invoice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void editInvoiceSaveEditsBtnClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                editInvoiceGroupBox.Visibility = Visibility.Collapsed;
+                editCurrentInvoiceBtn.IsEnabled = true;
+                editItemsBtn.IsEnabled = true;
+                currentInvoiceGroupBox.Visibility = Visibility.Visible;
+
+                currentInvoiceDate.Text = currentInvoice.invoiceDate;
+                currentInvoiceTotal.Content = currentInvoice.totalCost;
+                currentInvoiceItemsComboBox.ItemsSource = null;
+                currentInvoiceItemsComboBox.Items.Clear();
+                currentInvoiceItemsComboBox.ItemsSource = currentInvoiceItems;
+                mainManager.updateInvoice(currentInvoice, currentInvoiceItems);
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sets up the view/main window depending on where the user is at in the program. 
+        /// </summary>
         public void setupView()
         {
             try
@@ -169,44 +543,100 @@ namespace FinalProject
                 {
                     currentInvoiceGroupBox.Visibility = Visibility.Collapsed;
                     emptyInvoieGroupBox.Visibility = Visibility.Visible;
-                    //TODO: Uncomment when working on the logic of program.
-                    //editCurrentInvoiceBtn.IsEnabled = false;
-                    //deleteCurrentInvoiceBtn.IsEnabled = false;
+                    editCurrentInvoiceBtn.IsEnabled = false;
+                    deleteCurrentInvoiceBtn.IsEnabled = false;
+                    editItemsBtn.IsEnabled = true;
                 }
                 else
                 {
                     currentInvoiceGroupBox.Visibility = Visibility.Visible;
-                    //TODO: Populate all fields of the currentInvoiceGroupBox
+                    createInvoiceGroupBox.Visibility = Visibility.Collapsed;
+                    editInvoiceGroupBox.Visibility = Visibility.Collapsed;
+                    emptyInvoieGroupBox.Visibility = Visibility.Collapsed;
+                    editCurrentInvoiceBtn.IsEnabled = true;
+                    createNewInvoiceBtn.IsEnabled = true;
+                    deleteCurrentInvoiceBtn.IsEnabled = true;
+                    editItemsBtn.IsEnabled = true;
+
+                    //Clear the current invoiceItems and repopulate it with what the database has.
+                    currentInvoiceItems.Clear();
+
+                    //Populate the currentInvoiceItems with the lineItems from the DB for the current invoice.
+                    currentInvoiceItems = mainManager.getAllLineItems(currentInvoice.invoiceNum);
+
+                    currentInvoiceNumber.Content = currentInvoice.invoiceNum.ToString();
+                    currentInvoiceDate.Text = currentInvoice.invoiceDate;
+                    currentInvoiceItemsComboBox.ItemsSource = currentInvoiceItems;
+                    currentInvoiceTotal.Content = currentInvoice.totalCost;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Calculate the total for when an invoice is being created or edited.
+        /// </summary>
+        public void calculateTotal()
+        {
+            try
+            {
+                decimal total = 0.00m;
+                foreach (LineItem lineItem in currentInvoiceItems)
+                {
+                    total += lineItem.cost;
+                }
+                currentInvoice.totalCost = total.ToString();
+
+                if (createInvoiceGroupBox.Visibility == Visibility.Visible)
+                {
+                    createInvoiceTotal.Content = "$" + currentInvoice.totalCost;
+                }
+                if (editInvoiceGroupBox.Visibility == Visibility.Visible)
+                {
+                    editInvoiceTotal.Content = "$" + currentInvoice.totalCost;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Closes and clears all the values for when a user cancels creating a new invoice
+        /// or if the user deletes an invoice.
+        /// </summary>
+        public void closeInvoice()
+        {
+            try
+            {
+                createNewInvoiceBtn.IsEnabled = true;
+                currentInvoice.invoiceDate = null;
+                currentInvoice.invoiceNum = null;
+                currentInvoice.totalCost = null;
+                currentInvoiceItems.Clear();
+
+                createInvoiceDatePicker.SelectedDate = null;
+                createInvoiceDatePicker.DisplayDate = DateTime.Today;
+
+                if (createInvoiceGroupBox.Visibility == Visibility.Visible)
+                {
+                    createInvoiceInvoiceItemsDataGrid.ItemsSource = currentInvoiceItems;
+                    createInvoiceInvoiceItemsDataGrid.Items.Refresh();
+                }
+                if (editInvoiceGroupBox.Visibility == Visibility.Visible)
+                {
+                    editInvoiceInvoiceItemsDataGrid.ItemsSource = currentInvoiceItems;
+                    editInvoiceInvoiceItemsDataGrid.Items.Refresh();
                 }
 
-                //TODO: Remove this dummy data with real data from the Items table when ready. Also abstract this logic into the clsMainLogic class.
-
-                ItemDesc item = new ItemDesc();
-                    item.itemCode = "0";
-                    item.itemDescription = "iPhone";
-                    item.cost = 454.45m;
-
-                    ItemDesc item1 = new ItemDesc();
-                    item1.itemCode = "1";
-                    item1.itemDescription = "iPad";
-                    item1.cost = 1454.45m;
-
-                    ItemDesc item2 = new ItemDesc();
-                    item2.itemCode = "2";
-                    item2.itemDescription = "iMac";
-                    item2.cost = 4454.45m;
-
-                    List<ItemDesc> itemList = new List<ItemDesc>();
-                    itemList.Add(item);
-                    itemList.Add(item1);
-                    itemList.Add(item2);
-
-                    //DataGrid dataGrid = (DataGrid)sender;
-
-                    createInvoiceItemsDataGrid.ItemsSource = itemList;
-                    createInvoiceInvoiceItemsDataGrid.ItemsSource = itemList;
-                    editInvoiceInvoiceItemsDataGrid.ItemsSource = itemList;
-                    editInvoiceItemsDataGrid.ItemsSource = itemList;
+                calculateTotal();
+                createInvoiceGroupBox.Visibility = Visibility.Collapsed;
+                editInvoiceGroupBox.Visibility = Visibility.Collapsed;
+                setupView();
             }
             catch (Exception ex)
             {
@@ -232,35 +662,6 @@ namespace FinalProject
             }
         }
 
-        private void datagridCellClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                //TODO:  datagrid is not returing the object that is selected.
 
-                //DataGrid dataGrid = (DataGrid)sender;
-                //Console.WriteLine(dataGrid.Name);
-
-                //DataRowView row = dataGrid.SelectedItem as DataRowView;
-                //Console.WriteLine(row);
-                //MessageBox.Show(row.Row.ItemArray[1].ToString());
-
-                //ItemDesc item = (ItemDesc)dataGrid.SelectedItem;
-
-                //LineItem lineItem = new LineItem();
-                //lineItem.invoiceNum = currentInvoice.invoiceNum;
-                //lineItem.itemCode = item.itemCode;
-                //lineItem.itemDescription = item.itemDescription;
-                //lineItem.lineItemNum = dataGrid.SelectedIndex.ToString();
-
-                //currentInvoiceItems.Add(lineItem);
-                //createInvoiceInvoiceItemsDataGrid.ItemsSource = currentInvoiceItems;
-
-             }
-             catch (Exception ex)
-             {
-                  HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-             }
-        }
     }
 }
