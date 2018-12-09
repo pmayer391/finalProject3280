@@ -493,6 +493,11 @@ namespace FinalProject
             currentInvoiceGroupBox.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// When the x is clicked in the upper right, this closes the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void closeWindowBtnClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -564,10 +569,13 @@ namespace FinalProject
                     //Populate the currentInvoiceItems with the lineItems from the DB for the current invoice.
                     currentInvoiceItems = mainManager.getAllLineItems(currentInvoice.invoiceNum);
 
+                    calculateTotal();
+
                     currentInvoiceNumber.Content = currentInvoice.invoiceNum.ToString();
                     currentInvoiceDate.Text = currentInvoice.invoiceDate;
                     currentInvoiceItemsComboBox.ItemsSource = currentInvoiceItems;
                     currentInvoiceTotal.Content = currentInvoice.totalCost;
+
                 }
             }
             catch (Exception ex)
@@ -597,6 +605,10 @@ namespace FinalProject
                 if (editInvoiceGroupBox.Visibility == Visibility.Visible)
                 {
                     editInvoiceTotal.Content = "$" + currentInvoice.totalCost;
+                }
+                if (currentInvoiceGroupBox.Visibility == Visibility.Visible)
+                {
+                    currentInvoiceTotal.Content = "$" + currentInvoice.totalCost;
                 }
             }
             catch (Exception ex)
