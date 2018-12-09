@@ -127,13 +127,16 @@ namespace FinalProject.Search
         {
             try
             {
-                if (dataGrid.CurrentCell != null)
+                if (dataGrid.SelectedValue != null)
                 {
                     selectedInvoiceNum = ((DataRowView)dataGrid.SelectedValue).Row[0].ToString();
+                    Invoice invoiceSelected = searchLogic.getInvoice(selectedInvoiceNum);
 
                     this.Close();
                     mainWindow.IsEnabled = true;
-                    //mainWindow.currentInvoice = invoiceObjectThatTheUserSelects; //not sure how to use this
+                    mainWindow.currentInvoice.invoiceNum = invoiceSelected.invoiceNum;
+                    mainWindow.currentInvoice.invoiceDate = invoiceSelected.invoiceDate;
+                    mainWindow.currentInvoice.totalCost = invoiceSelected.totalCost;
                     mainWindow.setupView();
 
                     clearForm();

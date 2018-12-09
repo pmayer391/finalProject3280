@@ -55,3 +55,5 @@ C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\F
 C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.pdb
 C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\bin\Debug\FinalProject.pdb
 C:\Users\Rachel\Github\final_prototype\finalProject3280\FinalProject\obj\Debug\FinalProject.csprojResolveAssemblyReference.cache
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\bin\Debug\Invoice.mdb
+C:\Users\PaulM\Documents\WeberState\WeberStateFall2018\CS_3280\FinalProject\FinalProject\obj\Debug\FinalProject_Content.g.cs

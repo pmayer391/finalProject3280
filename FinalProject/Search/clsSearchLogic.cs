@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using System.Globalization;
 
 namespace FinalProject.Search
 {
@@ -158,6 +159,42 @@ namespace FinalProject.Search
                 }
 
                 return invoiceTotals;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+
+            }
+
+        }
+
+        /// <summary>
+        /// Gets the Invoice with the given invoice number;
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public Invoice getInvoice(string invoiceNum)
+        {
+
+            try
+            {
+                DataSet ds;
+                iRet = 0;
+                Invoice invoiceSelected = new Invoice();
+
+                sSQL = searchSQL.getInvoice(invoiceNum);
+                ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+
+                for (int i = 0; i < iRet; i++)
+                {
+                    invoiceSelected.invoiceNum= ds.Tables[0].Rows[i][0].ToString();
+                    invoiceSelected.invoiceDate = ds.Tables[0].Rows[i][1].ToString();
+                    invoiceSelected.invoiceDate = DateTime.Parse(invoiceSelected.invoiceDate).ToShortDateString().ToString();
+                }
+
+                return invoiceSelected;
 
             }
             catch (Exception ex)

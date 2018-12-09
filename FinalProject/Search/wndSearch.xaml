@@ -13,7 +13,7 @@
         Background="#FFF5E2"
         FontFamily="Segoe UI Semibold">
     <Grid>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="368" Margin="48,74,0,0" VerticalAlignment="Top" Width="341" FontSize="16" FontFamily="Rockwell" FontWeight="SemiBold">
+        <DataGrid x:Name="dataGrid" CanUserAddRows="False" IsReadOnly="True" HorizontalAlignment="Left" Height="368" Margin="48,74,0,0" VerticalAlignment="Top" Width="341" FontSize="16" FontFamily="Rockwell" FontWeight="SemiBold">
 
         </DataGrid>
         

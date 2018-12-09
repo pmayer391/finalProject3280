@@ -69,7 +69,7 @@
                 <Label Content="Items:" HorizontalAlignment="Right" Margin="20,19.667,0,17" VerticalAlignment="Center" Grid.Row="2" Height="50" Width="150" Grid.ColumnSpan="2"/>
                 <Label Content="Total:" Grid.Row="3" HorizontalAlignment="Right" Margin="20,20,0,16.667" VerticalAlignment="Center" Height="50" Width="150" Grid.ColumnSpan="2"/>
                 <Label x:Name="currentInvoiceNumber" Content="1" Grid.Column="2" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
-                <DatePickerTextBox x:Name="currentInvoiceDate" IsReadOnly="True"  Grid.Column="2" FontSize="15" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120" Grid.Row="1"/>
+                <DatePickerTextBox x:Name="currentInvoiceDate" IsReadOnly="True" Grid.Column="2" FontSize="15" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120" Grid.Row="1"/>
                 <ComboBox x:Name="currentInvoiceItemsComboBox" Grid.Column="2" FontSize="15" Grid.Row="2" HorizontalAlignment="Left" Margin="20,19.667,0,17" VerticalAlignment="Center" Width="120"/>
                 <Label x:Name="currentInvoiceTotal" Content="$100.00" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Margin="15,20,0,16.667" VerticalAlignment="Center" Height="60" Width="150" VerticalContentAlignment="Center"/>
             </Grid>

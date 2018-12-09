@@ -217,6 +217,26 @@ namespace FinalProject.Search
         }
 
         /// <summary>
+        /// SQL String that gets the invoice object for that invoice number.
+        /// </summary>
+        /// <param name="invoiceNumber"></param>
+        /// <returns></returns>
+        public string getInvoice(string invoiceNumber)
+        {
+            try
+            {
+                string sql = "SELECT * FROM Invoices WHERE InvoiceNum = " + invoiceNumber;
+
+                return sql;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " ->" + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// SQL statement to filter the InvoiceDate combobox by the InvoiceTotal selected from combobox
         /// </summary>
         /// <returns>sql statement</returns>
